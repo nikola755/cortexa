@@ -55,7 +55,6 @@ polkit-kde-agent
 pwvucontrol
 qt5-wayland
 qt6-wayland
-rofi
 slurp
 smartmontools
 sof-firmware
