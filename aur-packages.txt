@@ -1,4 +1,3 @@
-amneziavpn-bin
 apple-fonts
 awww
 base
