@@ -48,9 +48,10 @@ jetbrains mono    nerd font
 ```
 cortexa/
 ├── install.sh
-├── backup.sh
-├── pacman-packages.txt
-├── aur-packages.txt
+├── scripts/
+│   ├── backup.sh
+│   ├── pacman-packages.txt
+│   └── aur-packages.txt
 ├── config/
 │   ├── hypr/
 │   ├── kitty/
@@ -77,5 +78,5 @@ cortexa/
 
 ```bash
 cd ~/cortexa
-./backup.sh
+./scripts/backup.sh
 ```

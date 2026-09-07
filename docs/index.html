@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cortexa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        pre {
+            color: #58a6ff;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        h1 {
+            color: #58a6ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            color: #58a6ff;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            color: #8b949e;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: #161b22;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .block {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .block pre {
+            margin: 0;
+            color: #c9d1d9;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        .prompt {
+            color: #7ee787;
+        }
+
+        .cmd {
+            color: #c9d1d9;
+        }
+
+        .flag {
+            color: #d2a8ff;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .card h3 {
+            color: #58a6ff;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .links {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #21262d;
+        }
+
+        .links a {
+            margin-right: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            color: #484f58;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <pre>
+                            d8
+ e88'888  e88 88e  888,8,  d88    ,e e,   Y8b Y8Y  ,"Y88b
+d888  '8 d888 888b 888 "  d88888 d88 88b   Y8b Y  "8" 888
+Y888   , Y888 888P 888     888   888   ,  e Y8b   ,ee 888
+ "88,e8'  "88 88"  888     888    "YeeP" d8b Y8b  "88 888</pre>
+
+        <h1>~/cortexa</h1>
+        <p>arch linux + hyprland + noctalia dotfiles.</p>
+
+        <h2>quick install</h2>
+        <div class="block">
+<pre><span class="comment"># clone and install</span>
+<span class="prompt">$</span> <span class="cmd">git clone</span> <span class="string">https://github.com/nikola755/cortexa.git</span> ~/cortexa
+<span class="prompt">$</span> <span class="cmd">cd</span> ~/cortexa
+<span class="prompt">$</span> <span class="cmd">chmod +x</span> install.sh
+<span class="prompt">$</span> <span class="cmd">./install.sh</span></pre>
+        </div>
+
+        <h2>options</h2>
+        <div class="block">
+<pre><span class="prompt">$</span> <span class="cmd">./install.sh</span> <span class="flag">--fast</span>           <span class="comment"># skip all prompts</span>
+<span class="prompt">$</span> <span class="cmd">./install.sh</span> <span class="flag">--skip-packages</span>  <span class="comment"># only restore configs</span>
+<span class="prompt">$</span> <span class="cmd">./install.sh</span> <span class="flag">--skip-backup</span>    <span class="comment"># don't backup existing</span></pre>
+        </div>
+
+        <h2>what gets installed</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>hyprland</h3>
+                <p>wayland compositor + noctalia</p>
+            </div>
+            <div class="card">
+                <h3>kitty</h3>
+                <p>terminal with fish shell</p>
+            </div>
+            <div class="card">
+                <h3>nvim</h3>
+                <p>neovim nvchad config</p>
+            </div>
+            <div class="card">
+                <h3>opencode</h3>
+                <p>ai coding assistant</p>
+            </div>
+            <div class="card">
+                <h3>thunar</h3>
+                <p>file manager</p>
+            </div>
+            <div class="card">
+                <h3>noctalia</h3>
+                <p>bar, theme, nightlight</p>
+            </div>
+            <div class="card">
+                <h3>btop/cava</h3>
+                <p>system monitor</p>
+            </div>
+            <div class="card">
+                <h3>fonts</h3>
+                <p>jetbrains mono nerd</p>
+            </div>
+        </div>
+
+        <h2>update backup</h2>
+        <div class="block">
+<pre><span class="prompt">$</span> <span class="cmd">cd</span> ~/cortexa
+<span class="prompt">$</span> <span class="cmd">./scripts/backup.sh</span></pre>
+        </div>
+
+        <div class="links">
+            <a href="https://github.com/nikola755/cortexa">github</a>
+            <a href="https://github.com/nikola755/cortexa/issues">issues</a>
+            <a href="https://github.com/nikola755/cortexa/archive/refs/heads/main.zip">download zip</a>
+        </div>
+    </div>
+
+    <footer>cortexa</footer>
+</body>
+</html>

@@ -72,13 +72,13 @@ if [ "$SKIP_PACKAGES" = false ]; then
     log "Step 1/9: Installing packages..."
     
     # Install pacman packages
-    if [ -f "$DOTFILES_DIR/pacman-packages.txt" ]; then
-        PACKAGE_COUNT=$(wc -l < "$DOTFILES_DIR/pacman-packages.txt")
+    if [ -f "$DOTFILES_DIR/scripts/pacman-packages.txt" ]; then
+        PACKAGE_COUNT=$(wc -l < "$DOTFILES_DIR/scripts/pacman-packages.txt")
         log "Installing $PACKAGE_COUNT official packages..."
         
         if confirm "Install official packages?" "y"; then
-            sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/pacman-packages.txt" 2>/dev/null || \
-            sudo pacman -S --needed - < "$DOTFILES_DIR/pacman-packages.txt" || true
+            sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/scripts/pacman-packages.txt" 2>/dev/null || \
+            sudo pacman -S --needed - < "$DOTFILES_DIR/scripts/pacman-packages.txt" || true
         else
             warn "Skipping official packages"
         fi
@@ -142,10 +142,10 @@ if [ "$SKIP_PACKAGES" = false ]; then
         esac
     fi
     
-    if [ -f "$DOTFILES_DIR/aur-packages.txt" ]; then
+    if [ -f "$DOTFILES_DIR/scripts/aur-packages.txt" ]; then
         log "Installing AUR packages..."
-        $AUR_HELPER -S --needed --noconfirm - < "$DOTFILES_DIR/aur-packages.txt" 2>/dev/null || \
-        $AUR_HELPER -S --needed - < "$DOTFILES_DIR/aur-packages.txt" || true
+        $AUR_HELPER -S --needed --noconfirm - < "$DOTFILES_DIR/scripts/aur-packages.txt" 2>/dev/null || \
+        $AUR_HELPER -S --needed - < "$DOTFILES_DIR/scripts/aur-packages.txt" || true
     fi
 else
     warn "Skipping package installation"
@@ -261,7 +261,7 @@ chmod 700 "$HOME/.ssh" 2>/dev/null || true
 chmod 700 "$HOME/.gnupg" 2>/dev/null || true
 
 # Make scripts executable
-chmod +x "$DOTFILES_DIR/backup.sh" 2>/dev/null || true
+chmod +x "$DOTFILES_DIR/scripts/backup.sh" 2>/dev/null || true
 chmod +x "$DOTFILES_DIR/install.sh" 2>/dev/null || true
 
 # ============================================
