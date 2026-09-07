@@ -53,7 +53,7 @@ Personal system configuration backup for Arch Linux with Hyprland.
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
+git clone https://github.com/nikola755/dotfiles.git ~/dotfiles
 
 # Run the install script
 cd ~/dotfiles
