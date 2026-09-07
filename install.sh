@@ -164,6 +164,23 @@ for file in "${home_files[@]}"; do
 done
 
 # ============================================
+# STEP 5.25: Install desktop entries
+# ============================================
+echo ""
+echo "[5.25/8] Installing desktop entries..."
+
+if [ -d "$DOTFILES_DIR/config/applications" ]; then
+    mkdir -p "$HOME/.local/share/applications"
+    for file in "$DOTFILES_DIR/config/applications"/*.desktop; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            echo "  Installing: $filename"
+            cp "$file" "$HOME/.local/share/applications/"
+        fi
+    done
+fi
+
+# ============================================
 # STEP 5.5: Install Noctalia settings
 # ============================================
 echo ""
