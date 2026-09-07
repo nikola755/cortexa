@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Opencode
+Exec=kitty -e opencode
+Icon=opencode
+Terminal=false
+Type=Application
+Categories=Development;Utility;
+Keywords=ai;code;coding;Terminal
