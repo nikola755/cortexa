@@ -26,11 +26,34 @@ done
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
 NC='\033[0m'
 
 log() { echo -e "${GREEN}[+]${NC} $1"; }
 warn() { echo -e "${YELLOW}[!]${NC} $1"; }
 err() { echo -e "${RED}[-]${NC} $1"; }
+prompt() { echo -e "${CYAN}[?]${NC} $1"; }
+
+# Prompt helper
+confirm() {
+    local prompt_text="$1"
+    local default="${2:-y}"
+    local response
+    
+    if [ "$FAST_MODE" = true ]; then
+        return 0
+    fi
+    
+    if [ "$default" = "y" ]; then
+        prompt "$prompt_text [Y/n]: "
+    else
+        prompt "$prompt_text [y/N]: "
+    fi
+    
+    read -r response
+    response=${response:-$default}
+    [[ "$response" =~ ^[Yy]$ ]]
+}
 
 echo "=== Dotfiles Install Script ==="
 echo "Installing from: $DOTFILES_DIR"
@@ -48,11 +71,17 @@ fi
 if [ "$SKIP_PACKAGES" = false ]; then
     log "Step 1/9: Installing packages..."
     
-    # Install pacman packages with noconfirm for speed
+    # Install pacman packages
     if [ -f "$DOTFILES_DIR/pacman-packages.txt" ]; then
-        log "Installing official packages..."
-        sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/pacman-packages.txt" 2>/dev/null || \
-        sudo pacman -S --needed - < "$DOTFILES_DIR/pacman-packages.txt" || true
+        PACKAGE_COUNT=$(wc -l < "$DOTFILES_DIR/pacman-packages.txt")
+        log "Installing $PACKAGE_COUNT official packages..."
+        
+        if confirm "Install official packages?" "y"; then
+            sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/pacman-packages.txt" 2>/dev/null || \
+            sudo pacman -S --needed - < "$DOTFILES_DIR/pacman-packages.txt" || true
+        else
+            warn "Skipping official packages"
+        fi
     fi
     
     # Install AUR packages
@@ -62,11 +91,55 @@ if [ "$SKIP_PACKAGES" = false ]; then
     elif command -v yay &> /dev/null; then
         AUR_HELPER="yay"
     else
-        warn "No AUR helper found. Installing paru..."
-        git clone https://aur.archlinux.org/paru.git /tmp/paru-install 2>/dev/null
-        cd /tmp/paru-install && makepkg -si --noconfirm && cd - > /dev/null
-        rm -rf /tmp/paru-install
-        AUR_HELPER="paru"
+        warn "No AUR helper found."
+        echo ""
+        echo "  1) Install paru (binary - fast)"
+        echo "  2) Compile paru from source (slow, ~5-10 min)"
+        echo "  3) Skip AUR packages"
+        echo ""
+        
+        if [ "$FAST_MODE" = false ]; then
+            read -p "Choose [1/2/3]: " choice
+        else
+            choice=1
+        fi
+        
+        case $choice in
+            1)
+                log "Installing paru binary..."
+                # Try to get pre-built binary
+                PARU_VERSION=$(curl -sL "https://api.github.com/repos/Morganamilo/paru/releases/latest" | grep '"tag_name"' | cut -d'"' -f4)
+                if [ -n "$PARU_VERSION" ]; then
+                    curl -sLO "https://github.com/Morganamilo/paru/releases/download/${PARU_VERSION}/paru-${PARU_VERSION}-x86_64.pkg.tar.zst"
+                    sudo pacman -U --noconfirm "paru-${PARU_VERSION}-x86_64.pkg.tar.zst" 2>/dev/null || {
+                        warn "Binary install failed, compiling..."
+                        git clone https://aur.archlinux.org/paru.git /tmp/paru-install 2>/dev/null
+                        cd /tmp/paru-install && makepkg -si --noconfirm && cd - > /dev/null
+                        rm -rf /tmp/paru-install
+                    }
+                    rm -f "paru-${PARU_VERSION}-x86_64.pkg.tar.zst"
+                else
+                    warn "Could not fetch paru version, compiling..."
+                    git clone https://aur.archlinux.org/paru.git /tmp/paru-install 2>/dev/null
+                    cd /tmp/paru-install && makepkg -si --noconfirm && cd - > /dev/null
+                    rm -rf /tmp/paru-install
+                fi
+                AUR_HELPER="paru"
+                ;;
+            2)
+                log "Compiling paru from source..."
+                git clone https://aur.archlinux.org/paru.git /tmp/paru-install 2>/dev/null
+                cd /tmp/paru-install && makepkg -si && cd - > /dev/null
+                rm -rf /tmp/paru-install
+                AUR_HELPER="paru"
+                ;;
+            3)
+                warn "Skipping AUR packages"
+                ;;
+            *)
+                warn "Invalid choice, skipping AUR packages"
+                ;;
+        esac
     fi
     
     if [ -f "$DOTFILES_DIR/aur-packages.txt" ]; then
@@ -198,13 +271,17 @@ log "Step 9/9: Installing fonts & setting wallpaper..."
 
 # Install JetBrains Mono Nerd Font (fast download)
 if ! fc-list 2>/dev/null | grep -q "JetBrainsMono Nerd Font"; then
-    log "Downloading JetBrains Mono Nerd Font..."
-    cd /tmp
-    curl -sLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
-    tar -xf JetBrainsMono.tar.xz -C "$HOME/.local/share/fonts/" 2>/dev/null
-    rm -f JetBrainsMono.tar.xz
-    fc-cache -f 2>/dev/null
-    cd - > /dev/null
+    if confirm "Install JetBrains Mono Nerd Font?" "y"; then
+        log "Downloading JetBrains Mono Nerd Font..."
+        cd /tmp
+        curl -sLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
+        tar -xf JetBrainsMono.tar.xz -C "$HOME/.local/share/fonts/" 2>/dev/null
+        rm -f JetBrainsMono.tar.xz
+        fc-cache -f 2>/dev/null
+        cd - > /dev/null
+    else
+        warn "Skipping font installation"
+    fi
 else
     log "Font already installed"
 fi
