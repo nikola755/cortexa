@@ -23,10 +23,10 @@ if status is-interactive
 
     # etc
     abbr n 'nvim' 
-    abbr m 'micro'
     abbr c 'clear'
 
 end
 
 function fish_greeting
+  fastfetch  
 end

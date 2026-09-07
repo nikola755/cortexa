@@ -32,6 +32,7 @@ video/webm=mpv.desktop
 video/quicktime=mpv.desktop
 video/x-msvideo=mpv.desktop
 text/x-markdown=obsidian.desktop
+application/zip=thunar.desktop
 
 [Added Associations]
 x-scheme-handler/http=zen.desktop;
@@ -46,3 +47,4 @@ application/x-extension-xhtml=zen.desktop;
 application/x-extension-xht=zen.desktop;
 application/x-zerosize=nvim.desktop;
 application/x-fishscript=nvim.desktop;
+application/zip=thunar.desktop;

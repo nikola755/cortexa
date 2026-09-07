@@ -2,40 +2,42 @@
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": "~/.config/fastfetch/logo",
     "display": {
-        "separator": " ›  "
+      // "separator": " ›  "
+      "separator": " "
     },
     "modules": [
 	"break",
         {
             "type": "os",
-            "key": "OS  ",
+            "key": "os  ",
             "format": "arch linux",
         },
         {
             "type": "command",
-            "key": "KER ",
+            "key": "ker ",
             "shell": "/bin/sh",
             "text": "sh -c \"echo -n 'linux-zen '; uname -r | cut -d'-' -f1\"",
         },
         {
-            "type": "packages",
-            "key": "PKG ", 
-            "format": "{all}",
+            "type": "wm",
+            "key": "wm  ",
+            "format": "hyprland",
         },
         {
             "type": "shell",
-            "key": "SH  ",
+            "key": "sh  ",
             "format": "fish",
         },
         {
             "type": "terminal",
-            "key": "TER ",
+            "key": "ter ",
             "format": "kitty",
         },
         {
-            "type": "wm",
-            "key": "WM  ",
-            "format": "hyprland",
+            "type": "command",
+            "key": "mem ",
+            "text": "free -m | awk 'NR==2{printf \"%dm .. %dm\",$3,$2}'",
+            "format": ""
         },
         "break",
     ]

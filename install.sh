@@ -215,6 +215,16 @@ if [ -d "$DOTFILES_DIR/config" ]; then
 fi
 
 # ============================================
+# STEP 4.5: Install wallpapers
+# ============================================
+log "Step 4.5/9: Installing wallpapers..."
+
+if [ -d "$DOTFILES_DIR/wallpapers" ]; then
+    mkdir -p "$HOME/Pictures/Wallpapers"
+    cp "$DOTFILES_DIR/wallpapers"/* "$HOME/Pictures/Wallpapers/" 2>/dev/null || true
+fi
+
+# ============================================
 # STEP 5: Install desktop entries
 # ============================================
 log "Step 5/9: Installing desktop entries..."
