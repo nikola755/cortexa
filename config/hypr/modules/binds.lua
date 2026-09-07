@@ -28,6 +28,7 @@ hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(cortexa.code))
 hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exec_cmd(cortexa.session))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd(cortexa.clipboard))
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(cortexa.notes))
+hl.bind(mainMod .. " + O", hl.dsp.exec_cmd(cortexa.ai))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
