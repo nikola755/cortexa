@@ -1,0 +1,204 @@
+config_version = 14
+
+[accessibility]
+ui_scale = 0.95000000670552254
+
+[bar.default]
+capsule = true
+center = [ "group:g1" ]
+color = "secondary"
+end = [ "media", "volume" ]
+font_family = "SF Pro Display"
+font_scale = 0.96999998576939106
+margin_ends = 500
+padding = 16
+radius = 80
+start = [ "workspaces", "tray", "keyboard_layout", "wallhaven" ]
+
+    [bar.default.dead_zone.actions]
+    right = "none"
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g1"
+    members = [ "clock", "cat" ]
+    opacity = 1.0
+    padding = 6.0
+
+[control_center]
+show_session_button = false
+show_shortcut_labels = false
+sidebar = "none"
+sidebar_section = "none"
+
+    [[control_center.shortcuts]]
+    type = "system"
+
+    [[control_center.shortcuts]]
+    type = "nightlight"
+
+    [[control_center.shortcuts]]
+    type = "wallpaper"
+
+[desktop_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "desktop-widget-0000000000000001" ]
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget.desktop-widget-0000000000000001]
+    box_height = 96.0
+    box_width = 192.0
+    cx = 960.0
+    cy = 860.0
+    output = "DP-4"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "clock"
+
+[dock]
+show_instance_count = false
+show_running = false
+
+[hot_corners]
+delay_ms = 100
+enabled = true
+
+    [hot_corners.top_right]
+    action = "window_switcher"
+
+[location]
+latitude = 55.441600000000001
+longitude = 65.344399999999993
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@DP-4" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-4"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "DP-4"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-4".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[nightlight]
+enabled = true
+temperature_night = 4400
+
+[notification]
+border = false
+position = "bottom_right"
+
+[osd]
+border = false
+position = "bottom_center"
+
+[plugins]
+enabled = [ "dotnetrob/cat", "umedbazarov/webapp-maker" ]
+
+[shell]
+app_icon_color = "secondary"
+app_icon_colorize = true
+button_borders = false
+card_borders = false
+corner_radius_scale = 2.0
+font_family = "SF Pro Display"
+input_borders = false
+lang = "ru"
+password_style = "random"
+polkit_agent = true
+popup_borders = false
+
+    [shell.launcher]
+    compact = true
+    show_app_origin_indicator = false
+
+        [shell.launcher.providers.emoji]
+        global = true
+
+    [shell.panel]
+    floating_layer = "top"
+    launcher_placement = "attached"
+    list_item_background = true
+    open_near_click_wallpaper = true
+    transparency_mode = "glass"
+    wallpaper_placement = "floating"
+    wallpaper_position = "center"
+
+    [shell.screen_corners]
+    enabled = true
+
+    [shell.screenshot]
+    directory = "/home/user/Pictures/Screenshots"
+
+[theme]
+builtin = "Dracula"
+community_palette = "ADW"
+mode = "dark"
+source = "wallpaper"
+wallpaper_scheme = "m3-content"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kcolorscheme", "kitty", "qt", "starship" ]
+    community_ids = [ "opencode", "neovim", "obsidian", "vscode", "fastfetch", "papirus-icons" ]
+
+[wallpaper]
+directory = "/home/user/Pictures/Wallpapers"
+
+    [wallpaper.default]
+    path = "/home/user/Pictures/Wallpapers/photo_2026-09-06_21-32-58 (1).jpg"
+
+    [wallpaper.last]
+    path = "/home/user/Pictures/Wallpapers/photo_2026-09-06_21-32-58 (1).jpg"
+
+    [wallpaper.monitors.DP-4]
+    path = "/home/user/Pictures/Wallpapers/photo_2026-09-06_21-32-58 (1).jpg"
+
+[widget.cat]
+type = "dotnetrob/cat:cat"
+
+[widget.media]
+hide_when_no_media = true
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"
+
+[widget.workspaces]
+active_pill_size = 1.9500000000000002
+inactive_pill_size = 0.25
+show_icons = false
