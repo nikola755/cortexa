@@ -274,6 +274,13 @@ chmod 700 "$HOME/.gnupg" 2>/dev/null || true
 chmod +x "$DOTFILES_DIR/scripts/backup.sh" 2>/dev/null || true
 chmod +x "$DOTFILES_DIR/install.sh" 2>/dev/null || true
 
+# Install thunar-extract script
+if [ -f "$DOTFILES_DIR/bin/thunar-extract" ]; then
+    mkdir -p "$HOME/.local/bin"
+    cp "$DOTFILES_DIR/bin/thunar-extract" "$HOME/.local/bin/"
+    chmod +x "$HOME/.local/bin/thunar-extract"
+fi
+
 # ============================================
 # STEP 9: Install fonts & set wallpaper
 # ============================================

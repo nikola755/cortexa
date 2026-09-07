@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Extract Archive
+Comment=Extract archive to a folder next to it
+Exec=/home/user/.local/bin/thunar-extract %F
+Icon=package-x-generic
+NoDisplay=true
+MimeType=application/zip;application/x-7z-compressed;application/x-rar;application/vnd.rar;application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-xz-compressed-tar;application/x-zstd-compressed-tar;application/compressed-tar;application/gzip;application/x-xz;application/x-bzip;application/x-bzip1;application/x-lzma;application/zstd;application/x-lz4;application/x-arj;application/x-cpio;application/x-tarz;application/x-tzo;

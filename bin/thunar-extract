@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+for archive in "$@"; do
+    [ -f "$archive" ] || continue
+
+    base=$(basename "$archive")
+    dir=""
+    if [[ "$base" == *.tar.xz  ]]; then dir="${base%.tar.xz}";
+    elif [[ "$base" == *.tar.gz  ]]; then dir="${base%.tar.gz}";
+    elif [[ "$base" == *.tar.bz2 ]]; then dir="${base%.tar.bz2}";
+    elif [[ "$base" == *.tar.zst ]]; then dir="${base%.tar.zst}";
+    elif [[ "$base" == *.tar.lzma ]]; then dir="${base%.tar.lzma}";
+    elif [[ "$base" == *.tar     ]]; then dir="${base%.tar}";
+    elif [[ "$base" == *.tgz     ]]; then dir="${base%.tgz}";
+    elif [[ "$base" == *.tbz2    ]]; then dir="${base%.tbz2}";
+    fi
+
+    if [ -z "$dir" ]; then
+        dot=${base%.*}
+        [ "$dot" != "$base" ] && dir="$dot" || dir="$base-extracted"
+    fi
+
+    dest="$(dirname "$archive")/$dir"
+    mkdir -p "$dest"
+
+    if [[ "$base" == *.tar ]] || [[ "$base" == *.tar.* ]] || [[ "$base" == *.tgz ]] || [[ "$base" == *.tbz2 ]]; then
+        tar -xf "$archive" -C "$dest"
+    else
+        7z x -y -o"$dest" "$archive" >/dev/null
+    fi
+done
