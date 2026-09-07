@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Dotfiles Install Script
-# Restores system configuration from dotfiles repository
-# Usage: ./install.sh [--skip-packages] [--skip-backup]
+# Optimized for low-end hardware
+# Usage: ./install.sh [--skip-packages] [--skip-backup] [--fast]
 
 set -e
 
@@ -10,281 +10,240 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$HOME/.config"
 SKIP_PACKAGES=false
 SKIP_BACKUP=false
+FAST_MODE=false
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --skip-packages)
-            SKIP_PACKAGES=true
-            shift
-            ;;
-        --skip-backup)
-            SKIP_BACKUP=true
-            shift
-            ;;
-        *)
-            echo "Unknown option: $1"
-            exit 1
-            ;;
+        --skip-packages) SKIP_PACKAGES=true; shift ;;
+        --skip-backup) SKIP_BACKUP=true; shift ;;
+        --fast) FAST_MODE=true; shift ;;
+        *) echo "Unknown option: $1"; exit 1 ;;
     esac
 done
 
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+log() { echo -e "${GREEN}[+]${NC} $1"; }
+warn() { echo -e "${YELLOW}[!]${NC} $1"; }
+err() { echo -e "${RED}[-]${NC} $1"; }
+
 echo "=== Dotfiles Install Script ==="
-echo "Installing configuration from $DOTFILES_DIR"
+echo "Installing from: $DOTFILES_DIR"
 echo ""
 
 # Check if running on Arch Linux
 if ! command -v pacman &> /dev/null; then
-    echo "ERROR: This script is designed for Arch Linux."
-    echo "Please adapt for your distribution."
+    err "This script is designed for Arch Linux."
     exit 1
 fi
 
-# Check if git is installed
-if ! command -v git &> /dev/null; then
-    echo "Git not found. Installing git..."
-    sudo pacman -S --needed git
-fi
-
 # ============================================
-# STEP 1: Install packages
+# STEP 1: Install packages (optimized)
 # ============================================
 if [ "$SKIP_PACKAGES" = false ]; then
-    echo "[1/8] Installing packages..."
-    echo ""
+    log "Step 1/9: Installing packages..."
     
-    # Install pacman packages
-    echo "Installing official repository packages..."
+    # Install pacman packages with noconfirm for speed
     if [ -f "$DOTFILES_DIR/pacman-packages.txt" ]; then
+        log "Installing official packages..."
+        sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/pacman-packages.txt" 2>/dev/null || \
         sudo pacman -S --needed - < "$DOTFILES_DIR/pacman-packages.txt" || true
     fi
     
-    echo ""
-    echo "Installing AUR packages..."
-    
-    # Check for AUR helper
+    # Install AUR packages
     AUR_HELPER=""
     if command -v paru &> /dev/null; then
         AUR_HELPER="paru"
     elif command -v yay &> /dev/null; then
         AUR_HELPER="yay"
     else
-        echo "No AUR helper found. Installing paru..."
-        git clone https://aur.archlinux.org/paru.git /tmp/paru-install
-        cd /tmp/paru-install && makepkg -si && cd -
+        warn "No AUR helper found. Installing paru..."
+        git clone https://aur.archlinux.org/paru.git /tmp/paru-install 2>/dev/null
+        cd /tmp/paru-install && makepkg -si --noconfirm && cd - > /dev/null
         rm -rf /tmp/paru-install
         AUR_HELPER="paru"
     fi
     
     if [ -f "$DOTFILES_DIR/aur-packages.txt" ]; then
+        log "Installing AUR packages..."
+        $AUR_HELPER -S --needed --noconfirm - < "$DOTFILES_DIR/aur-packages.txt" 2>/dev/null || \
         $AUR_HELPER -S --needed - < "$DOTFILES_DIR/aur-packages.txt" || true
     fi
 else
-    echo "[1/8] Skipping package installation (--skip-packages)"
+    warn "Skipping package installation"
 fi
 
 # ============================================
-# STEP 2: Create directory structure
+# STEP 2: Create directory structure (parallel)
 # ============================================
-echo ""
-echo "[2/8] Creating directory structure..."
+log "Step 2/9: Creating directories..."
 
-directories=(
+# Create all directories in parallel for speed
+dirs=(
     "$CONFIG_DIR"
     "$HOME/.local/share/applications"
     "$HOME/.local/share/color-schemes"
     "$HOME/.local/share/icons"
     "$HOME/.local/share/mime"
-    "$HOME/.local/share/nvim"
-    "$HOME/.local/share/opencode"
-    "$HOME/.local/share/qalculate"
-    "$HOME/.local/share/fish"
+    "$HOME/.local/share/fonts"
+    "$HOME/.local/state/noctalia"
+    "$HOME/Documents"
+    "$HOME/Documents/notes"
+    "$HOME/Documents/projects"
+    "$HOME/Pictures"
+    "$HOME/Pictures/Screenshots"
+    "$HOME/Pictures/Wallpapers"
+    "$HOME/Downloads"
     "$HOME/.ssh"
     "$HOME/.gnupg"
 )
 
-for dir in "${directories[@]}"; do
-    mkdir -p "$dir"
+for dir in "${dirs[@]}"; do
+    mkdir -p "$dir" &
 done
+wait
 
 # ============================================
 # STEP 3: Backup existing configs
 # ============================================
 if [ "$SKIP_BACKUP" = false ]; then
-    echo ""
-    echo "[3/8] Backing up existing configurations..."
+    log "Step 3/9: Backing up existing configs..."
     
     BACKUP_DIR="$HOME/.config.backup.$(date +%Y%m%d_%H%M%S)"
     if [ -d "$CONFIG_DIR" ]; then
-        echo "Moving existing configs to: $BACKUP_DIR"
         mv "$CONFIG_DIR" "$BACKUP_DIR"
-        echo "Backup created. To restore later: mv $BACKUP_DIR $CONFIG_DIR"
-    else
-        echo "No existing .config directory found."
+        log "Backup: $BACKUP_DIR"
     fi
 else
-    echo ""
-    echo "[3/8] Skipping backup (--skip-backup)"
+    warn "Skipping backup"
 fi
 
 # ============================================
-# STEP 4: Install configuration files
+# STEP 4: Install config files (parallel)
 # ============================================
-echo ""
-echo "[4/8] Installing configuration files..."
+log "Step 4/9: Installing configs..."
 
-# Copy all config directories
 if [ -d "$DOTFILES_DIR/config" ]; then
     for item in "$DOTFILES_DIR/config"/*; do
         if [ -e "$item" ]; then
             item_name=$(basename "$item")
-            echo "  Installing: $item_name"
-            cp -r "$item" "$CONFIG_DIR/"
+            # Skip applications - handled separately
+            if [ "$item_name" != "applications" ]; then
+                cp -r "$item" "$CONFIG_DIR/" &
+            fi
         fi
     done
+    wait
 fi
 
 # ============================================
-# STEP 5: Install home directory dotfiles
+# STEP 5: Install desktop entries
 # ============================================
-echo ""
-echo "[5/8] Installing home directory dotfiles..."
-
-home_files=(
-    ".bashrc"
-    ".bash_profile"
-    ".bash_logout"
-)
-
-for file in "${home_files[@]}"; do
-    if [ -f "$DOTFILES_DIR/home/$file" ]; then
-        echo "  Installing: $file"
-        cp "$DOTFILES_DIR/home/$file" "$HOME/"
-    fi
-done
-
-# ============================================
-# STEP 5.25: Install desktop entries
-# ============================================
-echo ""
-echo "[5.25/8] Installing desktop entries..."
+log "Step 5/9: Installing desktop entries..."
 
 if [ -d "$DOTFILES_DIR/config/applications" ]; then
-    mkdir -p "$HOME/.local/share/applications"
     for file in "$DOTFILES_DIR/config/applications"/*.desktop; do
         if [ -f "$file" ]; then
-            filename=$(basename "$file")
-            echo "  Installing: $filename"
-            cp "$file" "$HOME/.local/share/applications/"
+            cp "$file" "$HOME/.local/share/applications/" &
         fi
     done
+    wait
 fi
 
 # ============================================
-# STEP 5.5: Install Noctalia settings
+# STEP 6: Install home directory dotfiles
 # ============================================
-echo ""
-echo "[5.5/8] Installing Noctalia settings..."
+log "Step 6/9: Installing home dotfiles..."
 
-NOCTALIA_STATE_DIR="$HOME/.local/state/noctalia"
-mkdir -p "$NOCTALIA_STATE_DIR"
+for file in .bashrc .bash_profile .bash_logout; do
+    [ -f "$DOTFILES_DIR/home/$file" ] && cp "$DOTFILES_DIR/home/$file" "$HOME/"
+done
+
+# ============================================
+# STEP 7: Install Noctalia settings
+# ============================================
+log "Step 7/9: Installing Noctalia settings..."
 
 if [ -f "$DOTFILES_DIR/config/noctalia/settings.toml" ]; then
-    echo "  Installing: settings.toml"
-    cp "$DOTFILES_DIR/config/noctalia/settings.toml" "$NOCTALIA_STATE_DIR/"
+    cp "$DOTFILES_DIR/config/noctalia/settings.toml" "$HOME/.local/state/noctalia/"
 fi
-
 if [ -f "$DOTFILES_DIR/config/noctalia/state.toml" ]; then
-    echo "  Installing: state.toml"
-    cp "$DOTFILES_DIR/config/noctalia/state.toml" "$NOCTALIA_STATE_DIR/"
+    cp "$DOTFILES_DIR/config/noctalia/state.toml" "$HOME/.local/state/noctalia/"
 fi
 
 # ============================================
-# STEP 6: Set permissions
+# STEP 8: Set permissions & post-install
 # ============================================
-echo ""
-echo "[6/8] Setting permissions..."
+log "Step 8/9: Setting permissions..."
 
-# Set secure permissions for sensitive files
-sensitive_files=(
-    "$CONFIG_DIR/starship.toml"
-    "$CONFIG_DIR/Thunar/uca.xml"
-    "$CONFIG_DIR/htop/htoprc"
-    "$HOME/.ssh"
-    "$HOME/.gnupg"
-)
-
-for file in "${sensitive_files[@]}"; do
-    if [ -e "$file" ]; then
-        chmod 600 "$file" 2>/dev/null || true
-    fi
-done
+# Secure sensitive files
+chmod 600 "$CONFIG_DIR/starship.toml" 2>/dev/null || true
+chmod 600 "$CONFIG_DIR/Thunar/uca.xml" 2>/dev/null || true
+chmod 700 "$HOME/.ssh" 2>/dev/null || true
+chmod 700 "$HOME/.gnupg" 2>/dev/null || true
 
 # Make scripts executable
 chmod +x "$DOTFILES_DIR/backup.sh" 2>/dev/null || true
 chmod +x "$DOTFILES_DIR/install.sh" 2>/dev/null || true
 
 # ============================================
-# STEP 7: Install fonts
+# STEP 9: Install fonts & set wallpaper
 # ============================================
-echo ""
-echo "[7/8] Installing fonts..."
+log "Step 9/9: Installing fonts & setting wallpaper..."
 
-# Create fonts directory
-mkdir -p "$HOME/.local/share/fonts"
-
-# Check if JetBrains Mono Nerd Font is installed
-if ! fc-list | grep -q "JetBrainsMono Nerd Font"; then
-    echo "  Installing JetBrains Mono Nerd Font..."
+# Install JetBrains Mono Nerd Font (fast download)
+if ! fc-list 2>/dev/null | grep -q "JetBrainsMono Nerd Font"; then
+    log "Downloading JetBrains Mono Nerd Font..."
     cd /tmp
-    curl -LO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
-    tar -xf JetBrainsMono.tar.xz -C "$HOME/.local/share/fonts/"
-    rm JetBrainsMono.tar.xz
-    fc-cache -fv
-    cd -
+    curl -sLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz
+    tar -xf JetBrainsMono.tar.xz -C "$HOME/.local/share/fonts/" 2>/dev/null
+    rm -f JetBrainsMono.tar.xz
+    fc-cache -f 2>/dev/null
+    cd - > /dev/null
 else
-    echo "  JetBrains Mono Nerd Font already installed."
+    log "Font already installed"
+fi
+
+# Set wallpaper if default exists
+WALLPAPER="$HOME/Pictures/Wallpapers/default.jpg"
+if [ -f "$WALLPAPER" ]; then
+    log "Setting wallpaper..."
+    # Try hyprpaper first, then swww, then feh
+    if command -v hyprctl &> /dev/null; then
+        hyprctl hyprpaper preload "$WALLPAPER" 2>/dev/null || true
+        hyprctl hyprpaper wallpaper ", $WALLPAPER" 2>/dev/null || true
+    elif command -v swww &> /dev/null; then
+        swww img "$WALLPAPER" 2>/dev/null || true
+    elif command -v feh &> /dev/null; then
+        feh --bg-fill "$WALLPAPER" 2>/dev/null || true
+    fi
 fi
 
 # ============================================
-# STEP 8: Configure shell
-# ============================================
-echo ""
-echo "[8/8] Configuring shell..."
-
-# Set fish as default shell
-if command -v fish &> /dev/null; then
-    echo "  Fish shell detected."
-    echo "  To set fish as default shell, run:"
-    echo "    chsh -s /bin/fish"
-fi
-
-# ============================================
-# Post-installation
+# Completion
 # ============================================
 echo ""
 echo "==========================================="
-echo "    Installation Complete!"
+echo -e "${GREEN}    Installation Complete!${NC}"
 echo "==========================================="
 echo ""
-echo "Installed components:"
-echo "  - Hyprland (Wayland compositor)"
-echo "  - Kitty (Terminal)"
-echo "  - Fish (Shell)"
-echo "  - Neovim (Editor)"
-echo "  - OpenCode (AI Assistant)"
-echo "  - Thunar (File manager)"
-echo "  - btop/cava/fastfetch (System tools)"
-echo "  - Noctalia (Full settings: bar, font, theme, etc)"
+echo "Installed:"
+echo "  - Hyprland + Noctalia (full settings)"
+echo "  - Kitty (shell: fish)"
+echo "  - Neovim (NvChad)"
+echo "  - OpenCode"
+echo "  - Thunar, btop, cava, fastfetch"
 echo "  - GTK/Qt themes"
 echo "  - JetBrains Mono Nerd Font"
+echo "  - Desktop entries (nvim, opencode)"
+echo "  - User folders created"
 echo ""
-echo "Next steps:"
-echo "  1. Log out and log back in"
-echo "  2. Set fish as default shell: chsh -s /bin/fish"
-echo "  3. Reload Hyprland: hyprctl reload"
-echo "  4. Restart your display manager if needed"
+echo "Kitty is set to use fish shell."
+echo "To set fish systemwide: chsh -s /bin/fish"
 echo ""
-echo "To update your backup in the future, run:"
-echo "  cd $DOTFILES_DIR && ./backup.sh"
-echo ""
+echo "Log out and back in to apply all changes."
