@@ -239,6 +239,16 @@ if [ -d "$DOTFILES_DIR/config/applications" ]; then
 fi
 
 # ============================================
+# STEP 5.5: Install cursor theme
+# ============================================
+log "Step 5.5/9: Installing cursor theme..."
+
+if [ -d "$DOTFILES_DIR/config/icons/Bibata-Modern-Classic" ]; then
+    mkdir -p "$HOME/.local/share/icons"
+    cp -r "$DOTFILES_DIR/config/icons/Bibata-Modern-Classic" "$HOME/.local/share/icons/"
+fi
+
+# ============================================
 # STEP 6: Install home directory dotfiles
 # ============================================
 log "Step 6/9: Installing home dotfiles..."

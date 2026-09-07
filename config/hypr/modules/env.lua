@@ -7,7 +7,7 @@ d88 88b 888 88b  Y8b Y8P
 
 ]]
 
-hl.env("XCURSOR_THEME", "Bibata-Modern-Ice") -- Changes the cursor
+hl.env("XCURSOR_THEME", "Bibata-Modern-Classic") -- Changes the cursor
 hl.env("XCURSOR_SIZE", "24") -- cursor
 
  
