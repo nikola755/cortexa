@@ -2,12 +2,21 @@
 
 Personal system configuration backup for Arch Linux with Hyprland.
 
+## Screenshots
+
+<!-- Add your screenshots here -->
+<!-- Example: -->
+<!-- ![Desktop](screenshots/desktop.png) -->
+<!-- ![Terminal](screenshots/terminal.png) -->
+<!-- ![Hyprland](screenshots/hyprland.png) -->
+
+*Screenshots coming soon - add your own by placing images in `screenshots/` folder*
+
 ## What's Included
 
 ### Window Manager & Desktop
 - **Hyprland** - Wayland compositor with Noctalia theme
-- **Waybar** - Status bar configuration
-- **Noctalia** - Shell and theme system
+- **Noctalia** - Shell, bar, and theme system (full settings included)
 
 ### Terminal & Shell
 - **Kitty** - Terminal emulator with Noctalia theme
@@ -116,7 +125,7 @@ dotfiles/
 │   ├── fish/            # Shell configuration
 │   ├── nvim/            # Neovim configuration
 │   ├── opencode/        # OpenCode configuration
-│   ├── waybar/          # Status bar
+│   ├── noctalia/        # Noctalia settings (bar, font, theme)
 │   ├── btop/            # System monitor
 │   ├── cava/            # Audio visualizer
 │   ├── fastfetch/       # System info

@@ -164,6 +164,25 @@ for file in "${home_files[@]}"; do
 done
 
 # ============================================
+# STEP 5.5: Install Noctalia settings
+# ============================================
+echo ""
+echo "[5.5/8] Installing Noctalia settings..."
+
+NOCTALIA_STATE_DIR="$HOME/.local/state/noctalia"
+mkdir -p "$NOCTALIA_STATE_DIR"
+
+if [ -f "$DOTFILES_DIR/config/noctalia/settings.toml" ]; then
+    echo "  Installing: settings.toml"
+    cp "$DOTFILES_DIR/config/noctalia/settings.toml" "$NOCTALIA_STATE_DIR/"
+fi
+
+if [ -f "$DOTFILES_DIR/config/noctalia/state.toml" ]; then
+    echo "  Installing: state.toml"
+    cp "$DOTFILES_DIR/config/noctalia/state.toml" "$NOCTALIA_STATE_DIR/"
+fi
+
+# ============================================
 # STEP 6: Set permissions
 # ============================================
 echo ""
@@ -237,10 +256,9 @@ echo "  - Kitty (Terminal)"
 echo "  - Fish (Shell)"
 echo "  - Neovim (Editor)"
 echo "  - OpenCode (AI Assistant)"
-echo "  - Waybar (Status bar)"
 echo "  - Thunar (File manager)"
 echo "  - btop/cava/fastfetch (System tools)"
-echo "  - Noctalia theme (Full suite)"
+echo "  - Noctalia (Full settings: bar, font, theme, etc)"
 echo "  - GTK/Qt themes"
 echo "  - JetBrains Mono Nerd Font"
 echo ""
