@@ -1,6 +1,6 @@
-# arch-hyprland
+# noctalia
 
-My personal Arch Linux + Hyprland + Noctalia configuration.
+Arch Linux + Hyprland + Noctalia dotfiles.
 
 ## What's Installed
 
@@ -17,8 +17,8 @@ My personal Arch Linux + Hyprland + Noctalia configuration.
 ## Quick Install
 
 ```bash
-git clone https://github.com/nikola755/arch-hyprland.git ~/arch-hyprland
-cd ~/arch-hyprland
+git clone https://github.com/nikola755/noctalia.git ~/noctalia
+cd ~/noctalia
 chmod +x install.sh
 ./install.sh
 ```
