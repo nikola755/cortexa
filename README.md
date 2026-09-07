@@ -43,16 +43,6 @@ gtk/qt            noctalia themes
 jetbrains mono    nerd font
 ```
 
-## what's excluded
-
-```
-vpn configs       amnezia (starts, configs not saved)
-ssh/gpg keys      security
-browser data      cookies/sessions
-obsidian/logseq   personal notes
-passwords         security
-```
-
 ## structure
 
 ```
