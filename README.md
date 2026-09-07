@@ -1,73 +1,91 @@
-# noctalia
+```
+                            d8                            
+ e88'888  e88 88e  888,8,  d88    ,e e,   Y8b Y8Y  ,"Y88b 
+d888  '8 d888 888b 888 "  d88888 d88 88b   Y8b Y  "8" 888 
+Y888   , Y888 888P 888     888   888   ,  e Y8b   ,ee 888 
+ "88,e8'  "88 88"  888     888    "YeeP" d8b Y8b  "88 888 
+```
 
-Arch Linux + Hyprland + Noctalia dotfiles.
+## what is this?
 
-## What's Installed
+arch linux + hyprland + noctalia dotfiles.
+one script to restore my entire system.
 
-- **Hyprland** - Wayland compositor
-- **Noctalia** - Full settings (bar, font, theme, nightlight)
-- **Kitty** - Terminal with fish shell
-- **Neovim** - NvChad config
-- **OpenCode** - AI coding assistant
-- **Thunar** - File manager
-- **btop/cava/fastfetch** - System tools
-- **GTK/Qt** - Noctalia themes
-- **JetBrains Mono Nerd Font**
-
-## Quick Install
+## install
 
 ```bash
-git clone https://github.com/nikola755/noctalia.git ~/noctalia
-cd ~/noctalia
+git clone https://github.com/nikola755/cortexa.git ~/cortexa
+cd ~/cortexa
 chmod +x install.sh
 ./install.sh
 ```
 
-## Options
-
-- `--fast` - Skip all prompts, use defaults
-- `--skip-packages` - Only restore configs
-- `--skip-backup` - Don't backup existing configs
-
-## What's Excluded
-
-- VPN configs (AmneziaVPN starts but configs not saved)
-- SSH/GPG keys
-- Browser data
-- Obsidian/Logseq notes
-- Passwords & credentials
-
-## Structure
+## options
 
 ```
-arch-hyprland/
-├── install.sh          # One-click installer
-├── backup.sh           # Update your backup
-├── pacman-packages.txt # Official packages
-├── aur-packages.txt    # AUR packages
+--fast           skip all prompts
+--skip-packages  only restore configs
+--skip-backup    don't backup existing configs
+```
+
+## what gets installed
+
+```
+hyprland          wayland compositor
+noctalia          bar, font, theme, nightlight
+kitty             terminal (fish shell)
+nvim              neovim (nvchad)
+opencode          ai coding assistant
+thunar            file manager
+btop/cava         system monitor/visualizer
+fastfetch         system info
+gtk/qt            noctalia themes
+jetbrains mono    nerd font
+```
+
+## what's excluded
+
+```
+vpn configs       amnezia (starts, configs not saved)
+ssh/gpg keys      security
+browser data      cookies/sessions
+obsidian/logseq   personal notes
+passwords         security
+```
+
+## structure
+
+```
+cortexa/
+├── install.sh
+├── backup.sh
+├── pacman-packages.txt
+├── aur-packages.txt
 ├── config/
-│   ├── hypr/          # Hyprland config
-│   ├── kitty/         # Terminal
-│   ├── fish/          # Shell
-│   ├── nvim/          # Editor
-│   ├── opencode/      # AI assistant
-│   ├── noctalia/      # Noctalia settings
-│   ├── btop/          # System monitor
-│   ├── cava/          # Visualizer
-│   ├── fastfetch/     # System info
-│   ├── Thunar/        # File manager
-│   ├── gtk-*/         # GTK themes
-│   ├── qt*/           # Qt colors
-│   └── applications/  # Desktop entries
+│   ├── hypr/
+│   ├── kitty/
+│   ├── fish/
+│   ├── nvim/
+│   ├── opencode/
+│   ├── noctalia/
+│   ├── btop/
+│   ├── cava/
+│   ├── fastfetch/
+│   ├── thunar/
+│   ├── gtk-3.0/
+│   ├── gtk-4.0/
+│   ├── qt5ct/
+│   ├── qt6ct/
+│   └── applications/
 └── home/
     ├── .bashrc
     ├── .bash_profile
     └── .bash_logout
 ```
 
-## Update Backup
+## update backup
 
 ```bash
-cd ~/arch-hyprland
+cd ~/cortexa
 ./backup.sh
 ```
