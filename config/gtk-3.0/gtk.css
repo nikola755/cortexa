@@ -1,0 +1,52 @@
+@import "noctalia.css";
+
+window, .thunar, .thunar grid, .thunar .view, .thunar iconview, .thunar treeview {
+    background-color: @view_bg_color;
+    color: @view_fg_color;
+}
+
+.thunar .sidebar, .thunar .shortcuts-view, .thunar treeview.sidebar {
+    background-color: @sidebar_bg_color;
+    color: @sidebar_fg_color;
+}
+
+.thunar toolbar, .thunar headerbar, .thunar menubar, .thunar .location-bar, headerbar, toolbar, menubar {
+    background-color: @headerbar_bg_color;
+    color: @headerbar_fg_color;
+    border-style: none;
+}
+
+.thunar entry, .thunar .path-bar-box, .thunar .path-bar-box button {
+    background-color: @headerbar_bg_color;
+    color: @headerbar_fg_color;
+    border-color: @sidebar_border_color;
+}
+
+.thunar .view:selected, .thunar iconview:selected, .thunar treeview:selected, .thunar .sidebar:selected {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+/* Выпадающие и контекстные меню */
+menu, .menu, popover, window.popup menu {
+    background-color: @popover_bg_color;
+    color: @popover_fg_color;
+    border: 1px solid @sidebar_border_color;
+    padding: 4px;
+}
+
+menu menuitem, .menu menuitem {
+    color: @popover_fg_color;
+    padding: 4px 8px;
+}
+
+/* Наведение на пункт меню */
+menu menuitem:hover, .menu menuitem:hover {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+/* Неактивные пункты */
+menu menuitem:disabled, .menu menuitem:disabled {
+    color: #6e645e;
+}

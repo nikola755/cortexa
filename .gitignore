@@ -1,0 +1,154 @@
+# Sensitive data - NEVER commit these
+# VPN configurations
+*vpn*
+*VPN*
+*amnezia*
+*Amnezia*
+
+# Passwords and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+*password*
+*secret*
+*token*
+*credentials*
+
+# SSH keys
+.ssh/
+
+# GPG keys
+.gnupg/
+
+# Browser profiles (contains cookies, sessions, etc.)
+**/Cookies
+**/Cookies-journal
+**/Login Data
+**/Web Data
+**/Local State
+**/Preferences
+**/Secure Preferences
+
+# Obsidian vault data (notes, attachments, etc.)
+**/obsidian/**/vaults/
+**/obsidian/**/workspace.json
+**/obsidian/**/.obsidian/
+**/obsidian/**/Cache/
+**/obsidian/**/Code Cache/
+**/obsidian/**/blob_storage/
+**/obsidian/**/IndexedDB/
+**/obsidian/**/Local Storage/
+**/obsidian/**/Session Storage/
+**/obsidian/**/GPUCache/
+**/obsidian/**/DawnGraphiteCache/
+**/obsidian/**/DawnWebGPUCache/
+**/obsidian/**/Crashpad/
+**/obsidian/**/DIPS*
+**/obsidian/**/Network Persistent State
+
+# Logseq data (notes, graphs, etc.)
+**/Logseq/**/graphs/
+**/Logseq/**/Cache/
+**/Logseq/**/Code Cache/
+**/Logseq/**/blob_storage/
+**/Logseq/**/IndexedDB/
+**/Logseq/**/Local Storage/
+**/Logseq/**/Session Storage/
+**/Logseq/**/GPUCache/
+**/Logseq/**/DawnGraphiteCache/
+**/Logseq/**/DawnWebGPUCache/
+**/Logseq/**/Crashpad/
+**/Logseq/**/DIPS*
+**/Logseq/**/logs/
+**/Logseq/**/configs.edn
+
+# VSCodium/VSCode data
+**/VSCodium/**/Cache/
+**/VSCodium/**/Code Cache/
+**/VSCodium/**/blob_storage/
+**/VSCodium/**/CachedData/
+**/VSCodium/**/CachedExtensionVSIXs/
+**/VSCodium/**/CachedExtensions/
+**/VSCodium/**/CachedPackages/
+**/VSCodium/**/Cookies
+**/VSCodium/**/Cookies-journal
+**/VSCodium/**/DIPS*
+**/VSCodium/**/GPUCache/
+**/VSCodium/**/IndexedDB/
+**/VSCodium/**/Local Storage/
+**/VSCodium/**/Session Storage/
+**/VSCodium/**/logs/
+
+# Yandex Music data
+**/YandexMusic/**/Cache/
+**/YandexMusic/**/blob_storage/
+**/YandexMusic/**/IndexedDB/
+**/YandexMusic/**/Local Storage/
+**/YandexMusic/**/Session Storage/
+
+# Zen Browser data
+**/zen/**/Cache/
+**/zen/**/Code Cache/
+**/zen/**/blob_storage/
+**/zen/**/Cookies
+**/zen/**/Cookies-journal
+**/zen/**/DIPS*
+**/zen/**/GPUCache/
+**/zen/**/IndexedDB/
+**/zen/**/Local Storage/
+**/zen/**/Session Storage/
+
+# System files
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.o
+*.ko
+*.a
+*.so
+*.so.*
+*.dylib
+
+# Node modules (for opencode)
+**/node_modules/
+
+# Lazy.nvim lock file (regenerated on install)
+**/lazy-lock.json
+
+# Git directories
+**/.git/
+
+# Cache directories
+**/Cache/
+**/cache/
+**/.cache/
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+/tmp/
+/var/tmp/
+
+# Package manager caches
+paru/
+yay/
+
+# Cargo registry (regenerated)
+.cargo/registry/
+
+# Go module cache
+go/pkg/mod/
+
+# npm cache
+.npm/
+
+# Rust
+.nv/

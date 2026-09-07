@@ -1,0 +1,5 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'Droid Sans Mono', monospace",
+    "workbench.startupEditor": "none"
+}
