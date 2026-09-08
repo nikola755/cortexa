@@ -11,5 +11,5 @@
 hl.on("hyprland.start", function ()
   hl.exec_cmd("noctalia")
   hl.exec_cmd("pgrep -x AmneziaVPN > /dev/null || AmneziaVPN -h")
-  hl.exec_once("hyprctl setcursor Bibata-Modern-Classic 22")
+  hl.exec_cmd("hyprctl setcursor Bibata-Modern-Classic 22")
 end)
