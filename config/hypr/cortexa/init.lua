@@ -13,6 +13,7 @@ local cortexa = {}
 cortexa.terminal   = "kitty"
 cortexa.files      = "thunar"
 cortexa.browser    = "zen-browser"
+cortexa.altbrowser = "chromium"
 cortexa.screenshot = "noctalia msg screenshot-region"
 cortexa.wallpaper  = "noctalia msg panel-toggle wallpaper"
 cortexa.launcher   = "noctalia msg panel-toggle launcher"

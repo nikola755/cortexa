@@ -24,6 +24,7 @@ if status is-interactive
     # etc
     abbr n 'nvim' 
     abbr c 'clear'
+    alias whereami="pwd"
 
 end
 
