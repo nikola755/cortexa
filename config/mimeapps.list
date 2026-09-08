@@ -53,6 +53,7 @@ application/x-arj=thunar-extract.desktop
 application/x-cpio=thunar-extract.desktop
 application/x-osu-beatmap=osu-file-handler.desktop
 application/x-osu-skin=osu-file-handler.desktop
+application/x-trash=org.gnome.Loupe.desktop
 
 [Added Associations]
 x-scheme-handler/http=zen.desktop;
@@ -68,3 +69,4 @@ application/x-extension-xht=zen.desktop;
 application/x-zerosize=nvim.desktop;
 application/x-fishscript=nvim.desktop;
 application/zip=thunar.desktop;
+application/x-trash=org.gnome.Loupe.desktop;

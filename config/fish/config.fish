@@ -18,13 +18,13 @@ if status is-interactive
     alias up="sudo pacman -Syu"
 
     alias p="paru -S"
-    alias uwu="fastfetch"
     alias f="fastfetch"
+    alias sf="somefetch"
 
     # etc
-    abbr n 'nvim' 
+    alias n='nvim'
     abbr c 'clear'
-    alias whereami="pwd"
+    alias wtf="pwd"
 
 end
 
